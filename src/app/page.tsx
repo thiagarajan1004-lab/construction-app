@@ -14,13 +14,14 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
-  // Fetch counts in parallel
-  const [projectCount, customerCount, workerCount, agreementCount, workOrderCount] = await Promise.all([
+  // Fetch counts and user details in parallel
+  const [projectCount, customerCount, workerCount, agreementCount, workOrderCount, user] = await Promise.all([
     prisma.project.count(),
     prisma.customer.count(),
     prisma.worker.count({ where: { status: 'active' } }),
     prisma.agreement.count(),
     prisma.workOrder.count({ where: { status: 'Pending' } }),
+    prisma.user.findUnique({ where: { id: session.userId }, select: { name: true } }),
   ]);
 
   const stats = [
@@ -65,7 +66,7 @@ export default async function DashboardPage() {
     <div className="p-6 space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">Welcome back, {session.name}</p>
+        <p className="text-muted-foreground">Welcome back, {user?.name || "User"}</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
