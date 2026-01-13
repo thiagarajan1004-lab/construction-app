@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { FileIcon, Loader2, Save } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ImageCropperDialog } from "@/components/image-cropper-dialog";
+import { useRouter } from "next/navigation";
 
 interface ProfileFormProps {
     user: {
@@ -36,6 +37,7 @@ interface ProfileFormData {
 }
 
 export function ProfileForm({ user }: ProfileFormProps) {
+    const router = useRouter(); // Initialize router
     const [isPending, startTransition] = useTransition();
     const [logoFile, setLogoFile] = useState<File | null>(null);
     const [profilePictureFile, setProfilePictureFile] = useState<File | null>(null);
@@ -105,6 +107,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
                     setLogoFile(null); // Clear file input
                     setProfilePictureFile(null);
                     setUserPhotoFile(null);
+                    router.refresh(); // Refresh data to show new images
                 }
             } catch (error) {
                 toast.error("An unexpected error occurred");
