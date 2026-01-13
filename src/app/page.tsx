@@ -7,12 +7,12 @@ export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/login');
+    router.push('/projects');
   }, [router]);
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <p>Redirecting to login...</p>
+      <p>Redirecting to Projects...</p>
     </div>
   );
 }
