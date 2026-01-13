@@ -1,0 +1,251 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id        Int       @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String?
+  address   String?
+  idDetails String?   // Identification details
+  imageUrl  String?   // Profile Photo
+  projects  Project[]
+  ledger    Ledger?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Project {
+  id          Int         @id @default(autoincrement())
+  name        String
+  location    String?
+  area        String?     // sq.ft/sq.m
+  type        String      // Residential/Commercia
+  status      String      @default("planning") // planning, in-progress, completed, on-hold
+  imageUrl    String?     // Project Main Image
+  startDate   DateTime?
+  endDate     DateTime?
+  
+  customerId  Int
+  customer    Customer    @relation(fields: [customerId], references: [id])
+  
+  agreements  Agreement[]
+  payments    Payment[]
+  documents   Document[]
+  bills       Bill[]
+  workers     Worker[]    @relation("ProjectWorkers")
+  workOrders  WorkOrder[]
+  images      ProjectImage[]
+  ledger      Ledger?
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model ProjectImage {
+  id        Int      @id @default(autoincrement())
+  url       String
+  projectId Int
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Agreement {
+  id            Int       @id @default(autoincrement())
+  agreementNumber String  @unique
+  title         String
+  value         Float
+  paymentTerms  String?
+  startDate     DateTime?
+  endDate       DateTime?
+  
+  projectId     Int
+  project       Project   @relation(fields: [projectId], references: [id])
+  
+  documents     Document[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Worker {
+  id        Int       @id @default(autoincrement())
+  name      String
+  role      String    // Mason, Electrician...
+  contact   String
+  imageUrl  String?  // Worker Profile Photo
+  status    String   @default("active")
+  idProof   String?
+  
+  // Bank Details
+  bankAccountNo String?
+  bankIfsc      String?
+  bankName      String?
+  upiId         String?
+  
+  // Personal Details
+  address       String?
+  panNumber     String?
+  aadhaarNumber String?
+  
+  // Documents
+  accountProofUrl String?
+  
+  projects   Project[]   @relation("ProjectWorkers")
+  workOrders WorkOrder[] @relation("WorkOrderWorkers")
+  ledger     Ledger?
+  
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model WorkOrder {
+  id          Int      @id @default(autoincrement())
+  orderNumber String   @unique // Work Order ID
+  description String
+  startDate   DateTime?
+  endDate     DateTime?
+  status      String   @default("Pending")
+  
+  projectId   Int
+  project     Project  @relation(fields: [projectId], references: [id])
+  
+  workers     Worker[] @relation("WorkOrderWorkers")
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Document {
+  id          Int      @id @default(autoincrement())
+  name        String
+  path        String
+  type        String   // Plan, Agreement, Invoice, Other, Bill
+  uploadedAt  DateTime @default(now())
+  
+  projectId   Int
+  project     Project  @relation(fields: [projectId], references: [id])
+  
+  agreementId Int?
+  agreement   Agreement? @relation(fields: [agreementId], references: [id])
+
+  paymentId   Int?
+  payment     Payment?   @relation(fields: [paymentId], references: [id])
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  date      DateTime
+  mode      String
+  reference String? // Cheque no, Transaction ID
+  remarks   String?
+  projectId Int
+  project   Project  @relation(fields: [projectId], references: [id])
+  
+  documents Document[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  mobile    String   @unique
+  password  String
+  role      String   @default("admin")
+  companyName String?
+  gstin       String?
+  address     String?
+  documentUrl String?
+  logoUrl     String?
+  profilePictureUrl String?
+  userPhotoUrl      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  companyDocuments CompanyDocument[]
+  companyImages    CompanyImage[]
+}
+
+model CompanyImage {
+  id        Int      @id @default(autoincrement())
+  url       String
+  caption   String?
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model CompanyDocument {
+  id        Int      @id @default(autoincrement())
+  name      String
+  url       String
+  type      String
+  
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+}
+
+model Ledger {
+  id          Int       @id @default(autoincrement())
+  name        String    // "John Doe", "Project X Fund"
+  type        String    // CUSTOMER, WORKER, VENDOR, PROJECT
+  balance     Float     @default(0)
+  
+  // Optional Links
+  customerId  Int?      @unique
+  customer    Customer? @relation(fields: [customerId], references: [id])
+  
+  workerId    Int?      @unique
+  worker      Worker?   @relation(fields: [workerId], references: [id])
+  
+  projectId   Int?      @unique
+  project     Project?  @relation(fields: [projectId], references: [id])
+
+  entries     LedgerEntry[]
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model LedgerEntry {
+  id          Int      @id @default(autoincrement())
+  amount      Float
+  type        String   // CREDIT (You Gave), DEBIT (You Got)
+  date        DateTime @default(now())
+  mode        String   // Cash, Online, etc.
+  remarks     String?
+  
+  ledgerId    Int
+  ledger      Ledger   @relation(fields: [ledgerId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Bill {
+  id            Int      @id @default(autoincrement())
+  description   String
+  amount        Float
+  billDate      DateTime
+  invoiceNumber String?
+  fileUrl       String?
+
+  projectId     Int
+  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

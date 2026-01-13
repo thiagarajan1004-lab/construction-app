@@ -1,0 +1,52 @@
+[
+  {
+    "id": 2,
+    "name": "Downtown ComplexDowntown Complex",
+    "location": "Bangalore ",
+    "area": null,
+    "type": "Residential",
+    "status": "Ongoing",
+    "imageUrl": "/uploads/a36b79d2-08ad-4b77-94de-588928a2ad66-sample-1.jpeg",
+    "startDate": "2024-10-16T00:00:00.000Z",
+    "endDate": "2026-01-12T00:00:00.000Z",
+    "customerId": 2,
+    "createdAt": "2026-01-10T18:52:39.302Z",
+    "updatedAt": "2026-01-10T18:52:39.302Z",
+    "customer": {
+      "id": 2,
+      "name": "aaaa",
+      "phone": "1234567890",
+      "email": "final@test.com",
+      "address": "Test Address 123",
+      "idDetails": null,
+      "imageUrl": "/uploads/08b44cca-f4f0-403b-8de5-fdcc47ffe53c-sample-6.jpeg",
+      "createdAt": "2026-01-10T18:50:24.912Z",
+      "updatedAt": "2026-01-10T18:50:24.912Z"
+    }
+  },
+  {
+    "id": 3,
+    "name": "dBCNBVN",
+    "location": "Bangalore ",
+    "area": null,
+    "type": "Residential",
+    "status": "Ongoing",
+    "imageUrl": "/uploads/561d5503-0cbb-4b9b-a16c-e3a52781eb91-sample-4.jpeg",
+    "startDate": "2026-01-15T00:00:00.000Z",
+    "endDate": null,
+    "customerId": 2,
+    "createdAt": "2026-01-10T18:53:41.260Z",
+    "updatedAt": "2026-01-10T18:53:55.459Z",
+    "customer": {
+      "id": 2,
+      "name": "aaaa",
+      "phone": "1234567890",
+      "email": "final@test.com",
+      "address": "Test Address 123",
+      "idDetails": null,
+      "imageUrl": "/uploads/08b44cca-f4f0-403b-8de5-fdcc47ffe53c-sample-6.jpeg",
+      "createdAt": "2026-01-10T18:50:24.912Z",
+      "updatedAt": "2026-01-10T18:50:24.912Z"
+    }
+  }
+]
