@@ -1,11 +1,10 @@
-import { getLedger, TransactionType } from "@/actions/billbook";
+import { getLedger } from "@/actions/billbook";
 import { notFound } from "next/navigation";
 import { TransactionList } from "@/components/bill-book/transaction-list";
 import { AddEntryDialog } from "@/components/bill-book/entry-dialog";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Info } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
 import { LedgerPDFButton } from "@/components/bill-book/pdf-button";
 
 export default async function LedgerDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -40,7 +39,7 @@ export default async function LedgerDetailPage({ params }: { params: Promise<{ i
 
             {/* Scrollable List */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                <TransactionList entries={ledger.entries} ledgerId={ledger.id} type={ledger.type as any} />
+                <TransactionList entries={ledger.entries} ledgerId={ledger.id} type={ledger.type as "CUSTOMER" | "WORKER" | "VENDOR" | "PROJECT"} />
                 <div className="h-20" /> {/* Spacer for footer */}
             </div>
 

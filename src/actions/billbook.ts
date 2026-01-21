@@ -1,7 +1,6 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
 
 export type LedgerType = "CUSTOMER" | "WORKER" | "VENDOR" | "PROJECT";
 export type TransactionType = "CREDIT" | "DEBIT"; // CREDIT = You Gave, DEBIT = You Got

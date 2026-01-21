@@ -11,7 +11,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Worker } from "@prisma/client";
+
 import { Edit } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -44,11 +44,11 @@ export default async function WorkersPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {workers.map((worker: any) => (
+                            {workers.map((worker) => (
                                 <TableRow key={worker.id}>
                                     <TableCell>
                                         <Avatar>
-                                            <AvatarImage src={worker.imageUrl} className="object-cover" />
+                                            <AvatarImage src={worker.imageUrl || undefined} className="object-cover" />
                                             <AvatarFallback>{worker.name.charAt(0)}</AvatarFallback>
                                         </Avatar>
                                     </TableCell>
@@ -90,7 +90,7 @@ export default async function WorkersPage() {
                             {workers.length === 0 && (
                                 <TableRow>
                                     <TableCell colSpan={6} className="text-center py-10 text-zinc-500">
-                                        No workers found. Click "Add Worker" to create one.
+                                        No workers found. Click &quot;Add Worker&quot; to create one.
                                     </TableCell>
                                 </TableRow>
                             )}

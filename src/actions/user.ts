@@ -9,7 +9,7 @@ import { promisify } from "util";
 
 const writeFile = promisify(fs.writeFile);
 
-export async function updateProfile(prevState: any, formData: FormData) {
+export async function updateProfile(prevState: unknown, formData: FormData) {
     const session = await verifySession();
 
     if (!session || !session.isAuth) {

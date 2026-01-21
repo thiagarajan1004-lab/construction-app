@@ -11,7 +11,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Customer } from "@prisma/client";
+
 import { Edit } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -43,11 +43,11 @@ export default async function CustomersPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {customers.map((customer: any) => (
+                            {customers.map((customer) => (
                                 <TableRow key={customer.id}>
                                     <TableCell>
                                         <Avatar>
-                                            <AvatarImage src={customer.imageUrl} className="object-cover" />
+                                            <AvatarImage src={customer.imageUrl || undefined} className="object-cover" />
                                             <AvatarFallback>{customer.name.charAt(0)}</AvatarFallback>
                                         </Avatar>
                                     </TableCell>
@@ -77,7 +77,7 @@ export default async function CustomersPage() {
                             {customers.length === 0 && (
                                 <TableRow>
                                     <TableCell colSpan={5} className="text-center py-10 text-zinc-500">
-                                        No customers found. Click "Add Customer" to create one.
+                                        No customers found. Click &quot;Add Customer&quot; to create one.
                                     </TableCell>
                                 </TableRow>
                             )}

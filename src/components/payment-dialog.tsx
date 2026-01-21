@@ -148,7 +148,7 @@ export function PaymentDialog({
                     // @ts-ignore
                     if (window.paymentFileInput) window.paymentFileInput.value = "";
                 }
-            } catch (_) {
+            } catch {
                 toast.error("An error occurred");
             }
         });
@@ -263,7 +263,7 @@ export function PaymentDialog({
                                 }
                             }}
                             ref={(input) => {
-                                // @ts-ignore
+                                // @ts-expect-error
                                 window.paymentFileInput = input;
                             }}
                         />

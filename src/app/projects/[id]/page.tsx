@@ -23,7 +23,7 @@ import { BillDialog } from "@/components/bill-dialog";
 import { BillDeleteButton } from "@/components/bill-delete-button";
 
 
-import { Prisma, Document, Agreement, Payment, Worker } from "@prisma/client";
+import { Prisma, Document, Agreement } from "@prisma/client";
 
 type ProjectWithRelations = Prisma.ProjectGetPayload<{
     include: {
@@ -31,7 +31,11 @@ type ProjectWithRelations = Prisma.ProjectGetPayload<{
         documents: true;
         agreements: true;
         workers: true;
-        payments: true;
+        payments: {
+            include: {
+                documents: true;
+            }
+        };
         workOrders: true; // Added workOrders just in case
         images: true;
         bills: true;
@@ -242,7 +246,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                                     {project.agreements.length === 0 && (
                                         <TableRow>
                                             <TableCell colSpan={5} className="text-center py-10 text-zinc-500">
-                                                No agreements found. Click "Add Agreement" to create one.
+                                                No agreements found. Click &quot;Add Agreement&quot; to create one.
                                             </TableCell>
                                         </TableRow>
                                     )}
@@ -276,7 +280,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {project.payments.map((payment: any) => (
+                                    {project.payments.map((payment) => (
                                         <TableRow key={payment.id}>
                                             <TableCell className="font-medium text-zinc-500">
                                                 {new Date(payment.date).toLocaleDateString()}
@@ -313,7 +317,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                                     {project.payments.length === 0 && (
                                         <TableRow>
                                             <TableCell colSpan={6} className="text-center py-10 text-zinc-500">
-                                                No payments recorded. Click "Record Payment" to add one.
+                                                No payments recorded. Click &quot;Record Payment&quot; to add one.
                                             </TableCell>
                                         </TableRow>
                                     )}
@@ -342,7 +346,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {project.bills.map((bill: any) => (
+                                    {project.bills.map((bill) => (
                                         <TableRow key={bill.id}>
                                             <TableCell className="font-medium text-zinc-500">
                                                 {new Date(bill.billDate).toLocaleDateString()}
@@ -372,7 +376,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                                     {project.bills.length === 0 && (
                                         <TableRow>
                                             <TableCell colSpan={6} className="text-center py-10 text-zinc-500">
-                                                No bills added. Click "Add Bill" to create one.
+                                                No bills added. Click &quot;Add Bill&quot; to create one.
                                             </TableCell>
                                         </TableRow>
                                     )}

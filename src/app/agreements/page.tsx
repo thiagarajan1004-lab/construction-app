@@ -11,7 +11,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Agreement } from "@prisma/client";
+
 import { Edit } from "lucide-react";
 
 import Link from "next/link";
@@ -27,7 +27,7 @@ export default async function AgreementsPage() {
                     <h1 className="text-3xl font-bold tracking-tight">Agreements</h1>
                     <p className="text-zinc-500 dark:text-zinc-400 mt-2">Manage contracts and agreements across all projects.</p>
                 </div>
-                <AgreementDialog projects={projects as any[]} />
+                <AgreementDialog projects={projects as unknown as { id: number; name: string }[]} />
             </div>
 
             <div className="bg-white dark:bg-zinc-900 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-800 overflow-hidden">
@@ -60,7 +60,7 @@ export default async function AgreementsPage() {
                                     </TableCell>
                                     <TableCell className="text-right">
                                         <div className="flex items-center justify-end gap-2">
-                                            <AgreementDialog mode="edit" agreement={agreement} projects={projects as any[]} trigger={
+                                            <AgreementDialog mode="edit" agreement={agreement} projects={projects as unknown as { id: number; name: string }[]} trigger={
                                                 <Button variant="ghost" size="icon" className="h-8 w-8">
                                                     <Edit className="h-4 w-4" />
                                                 </Button>
@@ -73,7 +73,7 @@ export default async function AgreementsPage() {
                             {agreements.length === 0 && (
                                 <TableRow>
                                     <TableCell colSpan={6} className="text-center py-10 text-zinc-500">
-                                        No agreements found. Click "Add Agreement" to create one.
+                                        No agreements found. Click &quot;Add Agreement&quot; to create one.
                                     </TableCell>
                                 </TableRow>
                             )}

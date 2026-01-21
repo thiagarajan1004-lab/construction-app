@@ -93,7 +93,7 @@ export function AgreementDialog({
                         startDate: "", endDate: ""
                     });
                 }
-            } catch (_) {
+            } catch {
                 toast.error("An error occurred");
             }
         });

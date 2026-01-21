@@ -1,15 +1,14 @@
 import { getLedgers } from "@/actions/billbook";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Plus, Users, Briefcase, UserSquare, Building2 } from "lucide-react";
+import { Users, Briefcase, UserSquare, Building2 } from "lucide-react";
 import Link from "next/link";
 import { CreateLedgerDialog } from "@/components/bill-book/create-ledger-dialog";
 
 export default async function BillBookPage() {
     const ledgers = await getLedgers();
 
-    const totalReceivable = ledgers.reduce((acc: number, l: any) => l.balance > 0 ? acc + l.balance : acc, 0);
-    const totalPayable = ledgers.reduce((acc: number, l: any) => l.balance < 0 ? acc + Math.abs(l.balance) : acc, 0);
+    const totalReceivable = ledgers.reduce((acc: number, l: { balance: number }) => l.balance > 0 ? acc + l.balance : acc, 0);
+    const totalPayable = ledgers.reduce((acc: number, l: { balance: number }) => l.balance < 0 ? acc + Math.abs(l.balance) : acc, 0);
 
     return (
         <div className="p-8 space-y-6 max-w-7xl mx-auto">
@@ -24,7 +23,7 @@ export default async function BillBookPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card className="bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800">
                     <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-green-600 dark:text-green-400">Total Receivable (You'll Get)</CardTitle>
+                        <CardTitle className="text-sm font-medium text-green-600 dark:text-green-400">Total Receivable (You&apos;ll Get)</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-bold text-green-700 dark:text-green-300">
@@ -34,7 +33,7 @@ export default async function BillBookPage() {
                 </Card>
                 <Card className="bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800">
                     <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-red-600 dark:text-red-400">Total Payable (You'll Give)</CardTitle>
+                        <CardTitle className="text-sm font-medium text-red-600 dark:text-red-400">Total Payable (You&apos;ll Give)</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-bold text-red-700 dark:text-red-300">
@@ -45,7 +44,7 @@ export default async function BillBookPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {ledgers.map((ledger: any) => (
+                {ledgers.map((ledger) => (
                     <Link key={ledger.id} href={`/bill-book/${ledger.id}`}>
                         <Card className="hover:shadow-md transition-shadow cursor-pointer">
                             <CardContent className="p-6 flex items-center justify-between">

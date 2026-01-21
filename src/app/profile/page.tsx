@@ -23,9 +23,9 @@ export default async function ProfilePage() {
             <ProfileForm user={user} />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* @ts-ignore */}
+
                 <CompanyDocumentManager documents={user.companyDocuments || []} />
-                {/* @ts-ignore */}
+
                 <CompanyGalleryManager images={user.companyImages || []} />
             </div>
         </div>

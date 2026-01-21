@@ -1,15 +1,15 @@
 "use client";
 
 import { useTransition } from "react";
-import { deleteLedgerEntry, LedgerType, TransactionType } from "@/actions/billbook";
+
+import { deleteLedgerEntry, LedgerType } from "@/actions/billbook";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns";
 
 // Group entries by date
-function groupEntriesByDate(entries: any[]) {
+function groupEntriesByDate(entries: { date: string | Date;[key: string]: any }[]) {
     const groups: Record<string, any[]> = {};
     entries.forEach(entry => {
         const date = new Date(entry.date).toDateString();
@@ -19,7 +19,7 @@ function groupEntriesByDate(entries: any[]) {
     return groups;
 }
 
-export function TransactionList({ entries, ledgerId, type }: { entries: any[], ledgerId: number, type: LedgerType }) {
+export function TransactionList({ entries, ledgerId }: { entries: any[], ledgerId: number, type: LedgerType }) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
 

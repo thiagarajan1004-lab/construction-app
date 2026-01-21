@@ -88,6 +88,7 @@ export function ProjectDialog({
 
     useEffect(() => {
         if (project) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setFormData({
                 name: project.name || "",
                 location: project.location || "",

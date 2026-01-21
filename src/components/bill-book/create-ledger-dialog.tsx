@@ -37,12 +37,12 @@ export function CreateLedgerDialog() {
 
         startTransition(async () => {
             try {
-                await createLedger({ name, type: type as any });
+                await createLedger({ name, type: type as "VENDOR" | "CUSTOMER" | "WORKER" | "PROJECT" });
                 toast.success("Ledger created");
                 setOpen(false);
                 setName("");
                 router.refresh();
-            } catch (error) {
+            } catch {
                 toast.error("Failed to create ledger");
             }
         });

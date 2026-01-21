@@ -2,7 +2,6 @@ import { getWorkerById } from "@/actions/worker";
 import { notFound } from "next/navigation";
 import {
     Card,
-    CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
@@ -103,7 +102,7 @@ export default async function WorkerDetailPage({
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {worker.projects.map((project: any) => (
+                                {worker.projects.map((project) => (
                                     <TableRow key={project.id}>
                                         <TableCell className="font-medium">
                                             <div className="flex flex-col">

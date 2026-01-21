@@ -15,10 +15,10 @@ export default async function PaymentsPage() {
                     <p className="text-zinc-500 dark:text-zinc-400 mt-2">Track all incoming and outgoing payments.</p>
                 </div>
                 {/* Create Dialog remains independent/uncontrolled for simplicity */}
-                <PaymentDialog projects={projects as any[]} />
+                <PaymentDialog projects={projects as unknown as { id: number; name: string }[]} />
             </div>
 
-            <PaymentsTable payments={payments} projects={projects as any[]} />
+            <PaymentsTable payments={payments} projects={projects as unknown as { id: number; name: string }[]} />
         </div>
     );
 }

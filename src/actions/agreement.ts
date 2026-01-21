@@ -47,10 +47,11 @@ export async function createAgreement(data: {
     return agreement;
 }
 
-export async function updateAgreement(id: number, data: any) {
+export async function updateAgreement(id: number, data: unknown) {
     const agreement = await prisma.agreement.update({
         where: { id },
-        data,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data: data as any,
     });
     revalidatePath("/agreements");
     revalidatePath(`/projects/${agreement.projectId}`);

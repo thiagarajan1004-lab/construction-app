@@ -5,7 +5,7 @@ import { createSession, deleteSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 
-export async function login(prevState: any, formData: FormData) {
+export async function login(prevState: unknown, formData: FormData) {
     const mobile = formData.get("mobile") as string;
     const password = formData.get("password") as string;
 
@@ -31,7 +31,7 @@ export async function login(prevState: any, formData: FormData) {
     redirect("/");
 }
 
-export async function register(prevState: any, formData: FormData) {
+export async function register(prevState: unknown, formData: FormData) {
     const name = formData.get("name") as string;
     const mobile = formData.get("mobile") as string;
     const password = formData.get("password") as string;

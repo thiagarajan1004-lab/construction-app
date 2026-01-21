@@ -62,7 +62,8 @@ export async function updateBill(id: number, formData: FormData) {
         const billDate = new Date(formData.get("billDate") as string);
         const invoiceNumber = (formData.get("invoiceNumber") as string) || null;
 
-        const data: any = {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const data: Record<string, any> = {
             description,
             amount,
             billDate,
@@ -81,7 +82,8 @@ export async function updateBill(id: number, formData: FormData) {
 
         const bill = await prisma.bill.update({
             where: { id },
-            data
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data: data as any
         });
 
         revalidatePath(`/projects/${projectId}`);

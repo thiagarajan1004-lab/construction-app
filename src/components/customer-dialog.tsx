@@ -66,6 +66,7 @@ export function CustomerDialog({
     useEffect(() => {
         if (open) {
             if (customer && mode === 'edit') {
+                // eslint-disable-next-line react-hooks/set-state-in-effect
                 setImageUrl(customer.imageUrl || null);
             } else {
                 setImageUrl(null);

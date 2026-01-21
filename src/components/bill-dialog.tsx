@@ -49,6 +49,7 @@ export function BillDialog({
 
     useEffect(() => {
         if (open && mode === "edit" && bill) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setFormData({
                 description: bill.description,
                 amount: String(bill.amount),
@@ -100,7 +101,7 @@ export function BillDialog({
                             billDate: new Date().toISOString().split('T')[0],
                             invoiceNumber: "",
                         });
-                        // @ts-ignore
+                        // @ts-expect-error
                         if (window.billFileInput) window.billFileInput.value = "";
                     }
                 } else {
@@ -179,7 +180,7 @@ export function BillDialog({
                             type="file"
                             className="cursor-pointer"
                             ref={(input) => {
-                                // @ts-ignore
+                                // @ts-expect-error
                                 window.billFileInput = input;
                             }}
                         />

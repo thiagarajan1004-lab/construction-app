@@ -2,7 +2,6 @@ import { getCustomerById } from "@/actions/customer";
 import { notFound } from "next/navigation";
 import {
     Card,
-    CardContent,
     CardDescription,
     CardHeader,
     CardTitle,

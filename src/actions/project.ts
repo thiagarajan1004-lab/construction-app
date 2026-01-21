@@ -37,7 +37,8 @@ export async function getProjectById(id: number) {
 
 export async function createProject(formData: FormData) {
     try {
-        const data: any = {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const data: Record<string, any> = {
             name: formData.get("name") as string,
             location: (formData.get("location") as string) || null,
             area: (formData.get("area") as string) || null,
@@ -53,7 +54,8 @@ export async function createProject(formData: FormData) {
         if (end) data.endDate = new Date(end);
 
         const project = await prisma.project.create({
-            data,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data: data as any,
         });
         revalidatePath("/projects");
         return { success: true, message: "Project created successfully", project };
@@ -65,7 +67,7 @@ export async function createProject(formData: FormData) {
 
 export async function updateProject(id: number, formData: FormData) {
     try {
-        const data: any = {
+        const data: Record<string, any> = {
             name: formData.get("name") as string,
             location: (formData.get("location") as string) || null,
             area: (formData.get("area") as string) || null,
@@ -82,7 +84,8 @@ export async function updateProject(id: number, formData: FormData) {
 
         const project = await prisma.project.update({
             where: { id },
-            data,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data: data as any,
         });
         revalidatePath("/projects");
         revalidatePath(`/projects/${id}`);
